@@ -10,15 +10,13 @@ struct ColorConsole
     static constexpr auto bg_white = "\033[47m";
 };
 
-struct ConsoleBox
+class ConsoleBox
 {
-private:
-    void new_text() {/*...*/}
 public:
-    void set_text(const string &text) { cout << text << endl; }
+    void display_text(const string &text) { cout << text << endl; }
 };
 
-ConsoleBox *consoleBox = new ConsoleBox;
+ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
 
 void load_script(const char* filename, bool show_script = false)
 {
@@ -47,8 +45,7 @@ void load_script(const char* filename, bool show_script = false)
             cout << script << endl;
         }
 
-        consoleBox->new_text();
-        consoleBox->set_text(script);
+        consoleBox->display_text(script);
     }
     catch (const exception& e)
     {
