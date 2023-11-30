@@ -25,7 +25,7 @@ void load_script(const char* filename, bool show_script = false)
 
     if (!file.is_open())
     {
-        cerr << "Error de apertura de " << filename << endl;
+        cerr << "Error: El archivo '" << filename << "' no existe." << endl;
         return;
     }
 
@@ -57,8 +57,15 @@ void load_script(const char* filename, bool show_script = false)
 void load_script()
 {
     char filename[500];
-    cout << "Archivo: ";
+    cout << "Ingrese el nombre del archivo: ";
     cin.getline(filename, sizeof(filename));
+
+    if (filename[0] == '\0')
+    {
+        cerr << "Error: No se proporcionó un nombre de archivo válido." << endl;
+        return;
+    }
+
     load_script(filename, true);
 }
 
