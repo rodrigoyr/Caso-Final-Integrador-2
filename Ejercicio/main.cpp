@@ -20,7 +20,7 @@ static ConsoleBox *consoleBox = new ConsoleBox;
 
 void load_script(const char *filename, bool show_script = false)
 {
-    ifstream file(filename, ios::binary);
+    ifstream file(filename);
 
     if (!file.is_open())
     {
