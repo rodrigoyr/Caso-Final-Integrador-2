@@ -16,25 +16,21 @@ struct ConsoleBox
     void set_text(const string &text) { cout << text << endl; }
 };
 
-ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
+ConsoleBox *consoleBox = new ConsoleBox;
 
 void load_script(const char* filename, bool show_script = false)
 {
-    string script;
     ifstream file(filename, ios::binary);
 
     if (!file.is_open())
     {
-        cerr << "Error de apertura de " << filename << endl;
+        cerr << "Error: El archivo '" << filename << "' no existe." << endl;
         return;
     }
 
     try
     {
-        file.seekg(0, ios::end);
-        script.resize(file.tellg());
-        file.seekg(0, ios::beg);
-        file.read(&script[0], script.size());
+        string script((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
         file.close();
 
         if (show_script)
@@ -56,8 +52,15 @@ void load_script(const char* filename, bool show_script = false)
 void load_script()
 {
     string filename;
-    cout << "Archivo: ";
+    cout << "Ingrese el nombre del archivo: ";
     cin >> filename;
+
+    if (filename.empty())
+    {
+        cerr << "Error: No se proporcionó un nombre de archivo válido." << endl;
+        return;
+    }
+
     load_script(filename.c_str(), true);
 }
 
