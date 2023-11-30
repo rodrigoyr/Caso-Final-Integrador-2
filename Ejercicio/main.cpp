@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <cstdio>
+#include <fstream>
 
 using namespace std;
 
@@ -16,51 +16,55 @@ struct ConsoleBox
     void set_text(const string &text) { cout << text << endl; }
 };
 
-ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
+unique_ptr<ConsoleBox> consoleBox = make_unique<ConsoleBox>(); // uso de unique_ptr
 
 void load_script(const char* filename, bool show_script = false)
 {
     string script;
-    FILE* f = nullptr;
+    ifstream file(filename); // uso de ifstream en lugar de FILE*
+
     try
     {
-        f = fopen(filename, "rb");
-        if (!f)
+        if (!file.is_open())
         {
-            cerr << "error de apertura de " << filename << endl;
+            cerr << "Error de apertura de " << filename << endl;
             return;
         }
 
-        int c;
         char buf[4001];
-        while ((c = fread(buf, 1, 4000, f)) > 0)
+        while (file.read(buf, sizeof(buf) - 1))
         {
-            buf[c] = 0;
+            buf[file.gcount()] = 0;
             script.append(buf);
         }
-        fclose(f);
-        f = nullptr;
 
         if (show_script)
         {
             cout << ColorConsole::fg_blue << ColorConsole::bg_white;
             cout << script << endl;
         }
+
         consoleBox->new_text();
         consoleBox->set_text(script);
     }
     catch (...)
     {
-        cerr << "error durante la lectura del archivo" << endl;
-        if(f)
-            fclose(f);
+        cerr << "Error durante la lectura del archivo" << endl;
     }
 }
 
 void load_script()
 {
-    char filename[500];
-    printf("Archivo: ");
-    scanf("%499s", filename);
-    load_script(filename, true);
+    string filename;
+    cout << "Archivo: ";
+    cin >> filename;
+    load_script(filename.c_str(), true);
+    int uninitialized_variable;  // Error: variable no inicializada
+    cout << uninitialized_variable << endl; // Se utiliza la variable no inicializada
+}
+
+int main()
+{
+    load_script(); // Ejemplo de uso
+    return 0;
 }
