@@ -1,4 +1,6 @@
 #include <iostream>
+#include <memory> // uso de unique_ptr
+#include <vector>
 #include <string>
 #include <fstream>
 
