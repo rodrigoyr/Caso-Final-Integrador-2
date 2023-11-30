@@ -12,13 +12,13 @@ struct ColorConsole
 
 struct ConsoleBox
 {
-    void new_text() {/*...*/}
+    void new_text() { /*...*/ }
     void set_text(const string &text) { cout << text << endl; }
 };
 
 static ConsoleBox *consoleBox = new ConsoleBox;
 
-void load_script(const char* filename, bool show_script = false)
+void load_script(const char *filename, bool show_script = false)
 {
     ifstream file(filename, ios::binary);
 
@@ -42,7 +42,7 @@ void load_script(const char* filename, bool show_script = false)
         consoleBox->new_text();
         consoleBox->set_text(script);
     }
-    catch (const exception& e)
+    catch (const exception &e)
     {
         cerr << "Error durante la lectura del archivo: " << e.what() << endl;
         file.close();
