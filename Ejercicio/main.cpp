@@ -70,7 +70,7 @@ int main()
     load_script(); // Ejemplo de uso
     return 0;
 }
-```
+
 Puedes ver el código funcionando en Try it online!.
 El código anterior tiene los siguientes cambios:
 
