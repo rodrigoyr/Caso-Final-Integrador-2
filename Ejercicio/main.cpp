@@ -16,7 +16,6 @@ struct ConsoleBox
     void set_text(const string &text) { cout << text << endl; }
 };
 
-// Declaración de la variable como estática en el archivo de implementación (.cpp)
 static ConsoleBox *consoleBox = new ConsoleBox;
 
 void load_script(const char* filename, bool show_script = false)
