@@ -1,5 +1,5 @@
 #include <iostream>
-#include <memory> // uso de unique_ptr
+#include <memory>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -14,23 +14,22 @@ struct ColorConsole
 
 struct ConsoleBox
 {
-    void new_text() {/*...*/}
-    void set_text(const string &text) { cout << text << endl; }
+    void new_text() { /*...*/ }
+    void set_text(const string& text) { cout << text << endl; }
 };
 
-unique_ptr<ConsoleBox> consoleBox = make_unique<ConsoleBox>(); // uso de unique_ptr
+vector<unique_ptr<ConsoleBox>> consoleBoxes;
 
-void load_script(const char* filename, bool show_script = false)
+void load_script(const string& filename, bool show_script = false)
 {
     string script;
-    ifstream file(filename); // uso de ifstream en lugar de FILE*
+    ifstream file(filename);
 
     try
     {
         if (!file.is_open())
         {
-            cerr << "Error de apertura de " << filename << endl;
-            return;
+            throw ios_base::failure("Error de apertura de " + filename);
         }
 
         char buf[4001];
@@ -46,28 +45,36 @@ void load_script(const char* filename, bool show_script = false)
             cout << script << endl;
         }
 
-        consoleBox->new_text();
-        consoleBox->set_text(script);
+        consoleBoxes.emplace_back(make_unique<ConsoleBox>());
+        consoleBoxes.back()->new_text();
+        consoleBoxes.back()->set_text(script);
+    }
+    catch (const ios_base::failure& e)
+    {
+        cerr << "Error durante la lectura del archivo: " << e.what() << endl;
+    }
+    catch (const exception& e)
+    {
+        cerr << "Error desconocido: " << e.what() << endl;
     }
     catch (...)
     {
-        cerr << "Error durante la lectura del archivo" << endl;
+        cerr << "Error inesperado durante la lectura del archivo" << endl;
     }
 }
 
 void load_script()
 {
     string filename;
-    cout << "Archivo: ";
+    cout << "Introduce el nombre del archivo: ";
     cin >> filename;
-    load_script(filename.c_str(), true);
-    int uninitialized_variable;  // Error: variable no inicializada
-    cout << uninitialized_variable << endl; // Se utiliza la variable no inicializada
+    load_script(filename, true);
 }
 
 int main()
 {
-    load_script(); // Ejemplo de uso
+    load_script();
     return 0;
 }
+
 
