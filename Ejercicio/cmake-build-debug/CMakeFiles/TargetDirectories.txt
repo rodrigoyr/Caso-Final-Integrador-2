@@ -1,0 +1,3 @@
+C:/Ingeniería Informática UAX/2023-24/1er cuatrimestre/Programación/Ejercicios/Caso-Final-Integrador-2/Ejercicio/cmake-build-debug/CMakeFiles/Ejercicio.dir
+C:/Ingeniería Informática UAX/2023-24/1er cuatrimestre/Programación/Ejercicios/Caso-Final-Integrador-2/Ejercicio/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Ingeniería Informática UAX/2023-24/1er cuatrimestre/Programación/Ejercicios/Caso-Final-Integrador-2/Ejercicio/cmake-build-debug/CMakeFiles/rebuild_cache.dir
