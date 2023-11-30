@@ -10,10 +10,10 @@ struct ColorConsole
     static constexpr auto bg_white = "\033[47m";
 };
 
-class ConsoleBox
+struct ConsoleBox
 {
-public:
-    void display_text(const string &text) { cout << text << endl; }
+    void new_text() {/*...*/}
+    void set_text(const string &text) { cout << text << endl; }
 };
 
 ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
@@ -21,22 +21,20 @@ ConsoleBox *consoleBox = new ConsoleBox; // suponemos que ya está inicializado
 void load_script(const char* filename, bool show_script = false)
 {
     string script;
-    ifstream file(filename, ios::in);
+    ifstream file(filename, ios::binary);
 
     if (!file.is_open())
     {
-        cerr << "Error: El archivo '" << filename << "' no existe." << endl;
+        cerr << "Error de apertura de " << filename << endl;
         return;
     }
 
     try
     {
-        string line;
-        while (getline(file, line))
-        {
-            script += line + "\n";
-        }
-
+        file.seekg(0, ios::end);
+        script.resize(file.tellg());
+        file.seekg(0, ios::beg);
+        file.read(&script[0], script.size());
         file.close();
 
         if (show_script)
@@ -45,7 +43,8 @@ void load_script(const char* filename, bool show_script = false)
             cout << script << endl;
         }
 
-        consoleBox->display_text(script);
+        consoleBox->new_text();
+        consoleBox->set_text(script);
     }
     catch (const exception& e)
     {
@@ -56,17 +55,10 @@ void load_script(const char* filename, bool show_script = false)
 
 void load_script()
 {
-    char filename[500];
-    cout << "Ingrese el nombre del archivo: ";
-    cin.getline(filename, sizeof(filename));
-
-    if (filename[0] == '\0')
-    {
-        cerr << "Error: No se proporcionó un nombre de archivo válido." << endl;
-        return;
-    }
-
-    load_script(filename, true);
+    string filename;
+    cout << "Archivo: ";
+    cin >> filename;
+    load_script(filename.c_str(), true);
 }
 
 int main()
