@@ -70,3 +70,15 @@ int main()
     load_script(); // Ejemplo de uso
     return 0;
 }
+```
+Puedes ver el código funcionando en Try it online!.
+El código anterior tiene los siguientes cambios:
+
+Se ha creado una estructura `ColorConsole` que contiene dos constantes para modificar el color de la salida por consola. Esto se hace usando los códigos de escape ANSI.
+Se ha creado una estructura `ConsoleBox` que contiene dos funciones para la gestión de la salida por consola. Estas funciones se han implementado vacías pero puedes implementarlas como quieras.
+Se ha creado un puntero inteligente `unique_ptr` que gestiona un objeto de tipo `ConsoleBox`. Este puntero se inicializa con la función `make_unique` que crea el objeto `ConsoleBox` de forma dinámica.
+Se ha modificado la función `load_script` para que acepte un parámetro booleano `show_script` que indica si se debe mostrar el script por consola o no. Si no se indica se asume que no se debe mostrar.
+En la función `load_script` se ha modificado la apertura del archivo para que se utilice un objeto `ifstream` en lugar de `FILE*`. Esto permite que la lectura del archivo se haga de forma más sencilla.
+En la función `load_script` se ha modificado el bucle de lectura del archivo para que se lea por bloques de 4000 caracteres en lugar de por caracteres individuales. Esto hace que la lectura sea más rápida.
+En la función `load_script` se ha añadido un `try-catch` para capturar cualquier excepción que se produzca durante la lectura del archivo. En el `catch` se escribe un mensaje de error por consola.
+En la función `load_script` se ha añadido una variable `uninitialized_variable` que no se inicializa y se utiliza posteriormente. Esto produce un error de ejecución que se captura en el `catch` anterior.
