@@ -46,8 +46,9 @@ void load_script(const string& filename, bool show_script = false)
         }
 
         consoleBoxes.emplace_back(make_unique<ConsoleBox>());
-        consoleBoxes.back()->new_text();
-        consoleBoxes.back()->set_text(script);
+        auto& currentConsoleBox = *consoleBoxes.back();
+        currentConsoleBox.new_text();
+        currentConsoleBox.set_text(script);
     }
     catch (const ios_base::failure& e)
     {
@@ -76,5 +77,3 @@ int main()
     load_script();
     return 0;
 }
-
-
