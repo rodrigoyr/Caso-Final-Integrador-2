@@ -16,6 +16,7 @@ struct ConsoleBox
     void set_text(const string &text) { cout << text << endl; }
 };
 
+// Declaración de la variable como estática en el archivo de implementación (.cpp)
 static ConsoleBox *consoleBox = new ConsoleBox;
 
 void load_script(const char* filename, bool show_script = false)
@@ -33,4 +34,39 @@ void load_script(const char* filename, bool show_script = false)
         string script((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
         file.close();
 
-        if (
+        if (show_script)
+        {
+            cout << ColorConsole::fg_blue << ColorConsole::bg_white;
+            cout << script << endl;
+        }
+
+        consoleBox->new_text();
+        consoleBox->set_text(script);
+    }
+    catch (const exception& e)
+    {
+        cerr << "Error durante la lectura del archivo: " << e.what() << endl;
+        file.close();
+    }
+}
+
+void load_script()
+{
+    string filename;
+    cout << "Ingrese el nombre del archivo: ";
+    cin >> filename;
+
+    if (filename.empty())
+    {
+        cerr << "Error: No se proporcionó un nombre de archivo válido." << endl;
+        return;
+    }
+
+    load_script(filename.c_str(), true);
+}
+
+int main()
+{
+    load_script();
+    return 0;
+}
